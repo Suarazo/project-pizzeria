@@ -95,6 +95,9 @@ const select = {
       console.log('thisProduct.cartButton: ', thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       console.log('thisProduct.priceElem: ', thisProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      console.log('thisProduct.imageWrapper: ', thisProduct.imageWrapper);
+    
     }
 
     initAccordion(){
@@ -157,16 +160,13 @@ const select = {
       for(let paramId in thisProduct.data.params) {
         // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
         const param = thisProduct.data.params[paramId];
-        console.log(paramId, param);
+        console.log('paramId i param: ', paramId, param);
 
         // for every option in this category
         for(let optionId in param.options) {
           // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          console.log(optionId, option);
-          // determine price value
-          
-
+          console.log('optionId i option: ', optionId, option);
 
           // check if there is param with a name of paramId in formData and if it includes optionId
           if(formData[paramId] && formData[paramId].includes(optionId)) {
@@ -181,14 +181,29 @@ const select = {
               // reduce price variable
               price -= option.price;
             }
-          }       
+          } 
+          
+          const optionImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
+            console.log('optionImage', optionImage);
+          if (formData[paramId] && formData[paramId].includes(optionId)) {
+            if (optionImage) {
+              optionImage.classList.add('active');
+            } 
+          } else {
+            if (optionImage) {
+              optionImage.classList.remove('active');
+            }
+          }
         }
       }
-
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
     }
   }
+
+
+
+
 
   const app = {
     initMenu: function(){
